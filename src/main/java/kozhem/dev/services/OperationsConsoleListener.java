@@ -25,7 +25,8 @@ public class OperationsConsoleListener {
 
     private UserService userService;
     private AccountService accountService;
-    private Scanner scanner = new Scanner(System.in);;
+    private Scanner scanner = new Scanner(System.in);
+    ;
 
     public OperationsConsoleListener(UserService userService, AccountService accountService) {
         this.userService = userService;
@@ -56,6 +57,7 @@ public class OperationsConsoleListener {
                         User user = userService.createUser(new_login);
                         Account account = accountService.createAccount(user.getId(), 500);
                         user.getAccountList().add(account);
+                        System.out.println("User created: " + user.toString());
                     } else {
                         System.out.println("Пользователь с таким логином уже создан!");
                     }
@@ -67,10 +69,26 @@ public class OperationsConsoleListener {
                     break;
 
                 case account_create:
+                    System.out.println("Enter the user id for which to create an account:");
 
+                    int inputId = scanner.nextInt();
+                    User user = userService.findUserById(inputId);
+
+                    if (!(user == null)) {
+                        Account account = accountService.createAccount(inputId, 500);
+                        user.getAccountList().add(account);
+                        System.out.printf("New account created with ID: %d for user: %s\n", account.getAccountId(), user.getLogin());
+                    } else {
+                        System.out.println("User with this id not found");
+                    }
+                    break;
 
                 case exit:
                     isRunning = false;
+                    break;
+
+                default:
+                    System.out.println("WRONG COMMAND! TRY AGAIN!");
             }
 
 

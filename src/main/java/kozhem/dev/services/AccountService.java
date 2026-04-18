@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 // пополнения и снятия средств, перевода средств между счетами и закрытия счета.
 @Service
 public class AccountService {
-    private static Integer unique_account_id = 0;
-
-    // private UserService userService;
-    //private OperationsConsoleListener listener;
+    private static Integer unique_account_id = 1;
 
     public AccountService() {
         System.out.println("AccountService создан");
@@ -20,7 +17,7 @@ public class AccountService {
 
 
     public Account createAccount(Integer userId, Integer moneyAmount) {
-        return new Account(unique_account_id, userId, moneyAmount);
+        return new Account(unique_account_id++, userId, moneyAmount);
 
     }
 

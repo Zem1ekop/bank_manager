@@ -19,6 +19,10 @@ public class Account {
         this.moneyAmount = moneyAmount;
     }
 
+    public Integer getAccountId() {
+        return accountId;
+    }
+
     @Override
     public String toString() {
         return "Account{" +

@@ -14,12 +14,11 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    private static Integer unique_user_id = 0;
+    private static Integer unique_user_id = 1;
     private static List<User> users = new ArrayList<>();
     private static Set<String> created_logins = new HashSet<>();
 
     public UserService() {
-        //  this.accountService = accountService;
         System.out.println("UserService создан");
     }
 
@@ -28,11 +27,14 @@ public class UserService {
         users.add(user);
         unique_user_id++;
         return user;
+    }
 
-        //System.out.printf("Created new useer with id: %d and login: %s \n", user
-        //      .getId(), user.getLogin());
-
-        //System.out.println("User created: " + user.toString());
+    public User findUserById(Integer id) {
+        User result = null;
+        for (User user : users) {
+            if (user.getId() == id) result = user;
+        }
+        return result;
     }
 
     public static Set<String> getCreated_logins() {
