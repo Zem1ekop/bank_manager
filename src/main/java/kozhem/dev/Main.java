@@ -6,10 +6,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class Main {
 
     static void main() {
+
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        //  ?  OperationsConsoleListener listener = new OperationsConsoleListener();
+
+        OperationsConsoleListener listener = context.getBean(OperationsConsoleListener.class);
+        listener.start();
 
 
-        System.out.println("Please enter one of operation type:");
     }
 }

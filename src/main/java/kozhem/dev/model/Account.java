@@ -1,9 +1,11 @@
 package kozhem.dev.model;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Account {
 
     /** уникальный идентификатор счета */
-    private Integer id;
+    private Integer accountId;
 
     /** идентификатор пользователя, владельца счета */
     private Integer userId;
@@ -11,14 +13,18 @@ public class Account {
     /** текущий баланс счета */
     private Integer moneyAmount;
 
-    /** флаг, указывающий, активен ли счёт */
-   // private Boolean isActive;
-
-    public Account(Integer id, Integer userId, Integer moneyAmount) {
-        this.id = id;
+    public Account(Integer accountId, Integer userId, @Value("${account.default-amount}") Integer moneyAmount) {
+        this.accountId = accountId;
         this.userId = userId;
         this.moneyAmount = moneyAmount;
     }
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId=" + accountId +
+                ", userId=" + userId +
+                ", moneyAmount=" + moneyAmount +
+                '}';
+    }
 }

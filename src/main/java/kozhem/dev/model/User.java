@@ -51,7 +51,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", accountList=" + accountList +
+                ", accountList=" + accountList.toString() +
                 '}';
     }
 }
