@@ -5,6 +5,8 @@ import kozhem.dev.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -38,21 +40,20 @@ public class OperationsConsoleListener {
 
         boolean isRunning = true;
 
-        String new_login;
-        String input;
         while (isRunning) {
 
             System.out.println();
             System.out.println("Please enter one of operation type:");
-            input = scanner.next();
+
+            String input = scanner.next();
 
             switch (input) {
                 case user_create:
 
                     System.out.println("Enter login for new user:");
-                    new_login = scanner.next();
+                    String new_login = scanner.next();
 
-                    if (UserService.getCreatedLogins().add(new_login)) {
+                    if (userService.getCreatedLogins().add(new_login)) {
 
                         User user = userService.createUser(new_login);
                         Account account = accountService.createAccount(user.getId());
@@ -81,7 +82,22 @@ public class OperationsConsoleListener {
 
                 case show_all_users:
                     System.out.println("List of all users:");
-                    UserService.getUsers().forEach(System.out::println);
+                    userService.getUsers().forEach(System.out::println);
+                    break;
+
+                case account_deposit:
+                    System.out.println("Enter account ID:");
+                    Integer idToDep = scanner.nextInt();
+                    break;
+//TODO
+                case account_close:
+                    System.out.println("Enter account ID to close:");
+                    Integer idToDel = scanner.nextInt();
+                    if (accountService.closeAccount(idToDel)) {
+                        System.out.printf("Account with ID: %d has been closed.\n", idToDel);
+                    } else {
+                        System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDel);
+                    }
                     break;
 
                 case exit:

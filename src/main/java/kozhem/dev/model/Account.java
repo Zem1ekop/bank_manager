@@ -23,6 +23,14 @@ public class Account {
         return accountId;
     }
 
+    public Integer getMoneyAmount() {
+        return moneyAmount;
+    }
+
+    public void setMoneyAmount(Integer moneyAmount) {
+        this.moneyAmount = moneyAmount;
+    }
+
     @Override
     public String toString() {
         return "Account{" +

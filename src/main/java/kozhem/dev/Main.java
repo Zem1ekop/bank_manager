@@ -11,7 +11,5 @@ public class Main {
 
         OperationsConsoleListener listener = context.getBean(OperationsConsoleListener.class);
         listener.start();
-
-
     }
 }

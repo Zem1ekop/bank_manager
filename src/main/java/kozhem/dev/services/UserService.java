@@ -14,9 +14,9 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    private static Integer uniqueUserId = 1;
-    private static List<User> users = new ArrayList<>();
-    private static Set<String> createdLogins = new HashSet<>();
+    private Integer uniqueUserId = 1;
+    private List<User> users = new ArrayList<>();
+    private Set<String> createdLogins = new HashSet<>();
 
     public UserService() {
         System.out.println("UserService создан");
@@ -37,11 +37,11 @@ public class UserService {
         return result;
     }
 
-    public static Set<String> getCreatedLogins() {
+    public Set<String> getCreatedLogins() {
         return createdLogins;
     }
 
-    public static List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 }
