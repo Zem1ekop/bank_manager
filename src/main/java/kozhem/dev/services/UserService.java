@@ -14,18 +14,18 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    private static Integer unique_user_id = 1;
+    private static Integer uniqueUserId = 1;
     private static List<User> users = new ArrayList<>();
-    private static Set<String> created_logins = new HashSet<>();
+    private static Set<String> createdLogins = new HashSet<>();
 
     public UserService() {
         System.out.println("UserService создан");
     }
 
     public User createUser(String login) {
-        User user = new User(unique_user_id, login);
+        User user = new User(uniqueUserId, login);
         users.add(user);
-        unique_user_id++;
+        uniqueUserId++;
         return user;
     }
 
@@ -37,8 +37,8 @@ public class UserService {
         return result;
     }
 
-    public static Set<String> getCreated_logins() {
-        return created_logins;
+    public static Set<String> getCreatedLogins() {
+        return createdLogins;
     }
 
     public static List<User> getUsers() {

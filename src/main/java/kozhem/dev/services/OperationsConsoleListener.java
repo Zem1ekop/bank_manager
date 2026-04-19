@@ -14,7 +14,7 @@ import java.util.Scanner;
 @Component
 public class OperationsConsoleListener {
 
-    private final String account_create = "ACCOUNT_CREATE";
+    private static final String account_create = "ACCOUNT_CREATE";
     private final String show_all_users = "SHOW_ALL_USERS";
     private final String account_close = "ACCOUNT_CLOSE";
     private final String account_withdraw = "ACCOUNT_WITHDRAW";
@@ -26,7 +26,7 @@ public class OperationsConsoleListener {
     private UserService userService;
     private AccountService accountService;
     private Scanner scanner = new Scanner(System.in);
-    ;
+
 
     public OperationsConsoleListener(UserService userService, AccountService accountService) {
         this.userService = userService;
@@ -38,8 +38,8 @@ public class OperationsConsoleListener {
 
         boolean isRunning = true;
 
-        String new_login = "";
-        String input = "";
+        String new_login;
+        String input;
         while (isRunning) {
 
             System.out.println();
@@ -52,20 +52,15 @@ public class OperationsConsoleListener {
                     System.out.println("Enter login for new user:");
                     new_login = scanner.next();
 
-                    if (userService.getCreated_logins().add(new_login)) {
+                    if (UserService.getCreatedLogins().add(new_login)) {
 
                         User user = userService.createUser(new_login);
-                        Account account = accountService.createAccount(user.getId(), 500);
+                        Account account = accountService.createAccount(user.getId());
                         user.getAccountList().add(account);
-                        System.out.println("User created: " + user.toString());
+                        System.out.println("User created: " + user);
                     } else {
                         System.out.println("Пользователь с таким логином уже создан!");
                     }
-                    break;
-
-                case show_all_users:
-                    System.out.println("List of all users:");
-                    userService.getUsers().forEach(System.out::println);
                     break;
 
                 case account_create:
@@ -75,12 +70,18 @@ public class OperationsConsoleListener {
                     User user = userService.findUserById(inputId);
 
                     if (!(user == null)) {
-                        Account account = accountService.createAccount(inputId, 500);
+                        Account account = accountService.createAccount(inputId);
                         user.getAccountList().add(account);
-                        System.out.printf("New account created with ID: %d for user: %s\n", account.getAccountId(), user.getLogin());
+                        System.out.printf("New account created with ID: %d for user: %s\n",
+                                account.getAccountId(), user.getLogin());
                     } else {
                         System.out.println("User with this id not found");
                     }
+                    break;
+
+                case show_all_users:
+                    System.out.println("List of all users:");
+                    UserService.getUsers().forEach(System.out::println);
                     break;
 
                 case exit:

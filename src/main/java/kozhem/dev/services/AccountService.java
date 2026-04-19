@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
     private static Integer unique_account_id = 1;
+    private final Integer defaultAmount;
 
-    public AccountService() {
+    public AccountService(@Value("${account.default-amount}") Integer defaultAnount) {
+        this.defaultAmount = defaultAnount;
         System.out.println("AccountService создан");
     }
 
 
-    public Account createAccount(Integer userId, Integer moneyAmount) {
-        return new Account(unique_account_id++, userId, moneyAmount);
+    public Account createAccount(Integer userId) {
+        return new Account(unique_account_id++, userId, defaultAmount);
 
     }
 

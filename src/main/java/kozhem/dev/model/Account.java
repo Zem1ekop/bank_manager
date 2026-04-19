@@ -13,7 +13,7 @@ public class Account {
     /** текущий баланс счета */
     private Integer moneyAmount;
 
-    public Account(Integer accountId, Integer userId, @Value("${account.default-amount}") Integer moneyAmount) {
+    public Account(Integer accountId, Integer userId, Integer moneyAmount) {
         this.accountId = accountId;
         this.userId = userId;
         this.moneyAmount = moneyAmount;
