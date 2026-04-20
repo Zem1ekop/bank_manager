@@ -6,6 +6,9 @@ import kozhem.dev.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 //AccountService : Сервис для управления счетами. Содержит методы для создания счета,
 // пополнения и снятия средств, перевода средств между счетами и закрытия счета.
 @Service
@@ -14,16 +17,19 @@ public class AccountService {
     private final UserService userService;
     private Integer unique_account_id = 1;
     private final Integer defaultAmount;
+    private Map<Integer,Account> accounts;
 
-    public AccountService(UserService userService, @Value("${account.default-amount}") Integer defaultAmount) {
+    public AccountService(UserService userService, @Value("${account.default-amount}") Integer defaultAmount, Map<Integer, Account> accounts) {
         this.userService = userService;
         this.defaultAmount = defaultAmount;
+        this.accounts = new HashMap<>();
         System.out.println("AccountService создан");
     }
 
     public Account createAccount(Integer userId) {
-        return new Account(unique_account_id++, userId, defaultAmount);
-
+        Account account = new Account(unique_account_id++, userId, defaultAmount);
+        accounts.put(account.getAccountId(), account);
+        return account;
     }
 
     public boolean closeAccount(Integer id) {
@@ -70,7 +76,25 @@ public class AccountService {
         }
     }
 
+    public boolean withdraw(Integer id, Integer amount) {
+        for (User user : userService.getUsers()) {
+            for (Account account : user.getAccountList()) {
+                if (account.getAccountId().equals(id)) {
+                    if (account.getMoneyAmount() >= amount) {
+                        account.setMoneyAmount(account.getMoneyAmount() - amount);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public Integer getUnique_account_id() {
         return unique_account_id;
+    }
+
+    public Map<Integer, Account> getAccounts() {
+        return accounts;
     }
 }

@@ -80,11 +80,6 @@ public class OperationsConsoleListener {
                     }
                     break;
 
-                case show_all_users:
-                    System.out.println("List of all users:");
-                    userService.getUsers().forEach(System.out::println);
-                    break;
-
                 case account_deposit:
                     System.out.println("Enter account ID:");
                     Integer idToDep = scanner.nextInt();
@@ -97,15 +92,20 @@ public class OperationsConsoleListener {
                     }
                     break;
 
-                case account_close:
-                    System.out.println("Enter account ID to close:");
-                    Integer idToDel = scanner.nextInt();
-                    if (accountService.closeAccount(idToDel)) {
-                        System.out.printf("Account with ID: %d has been closed.\n", idToDel);
+                case account_withdraw:
+                    System.out.println("Enter account ID to withdraw from:");
+                    Integer id = scanner.nextInt();
+                    System.out.println("Enter amount to withdraw:");
+                    Integer amountToWith = scanner.nextInt();
+                    if (accountService.withdraw(id, amountToWith)) {
+                        System.out.printf("Successfully withdraw amount: %d from acoount with id: %d", amountToWith, id);
                     } else {
-                        System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDel);
+                        System.out.printf("Error executing command ACCOUNT_WITHDRAW: error=No such money to withdraw\n" +
+                                "/from account: id=%d, moneyAmount=%d, attemptedWithdraw=%d",
+                                id, accountService.getAccounts().get(id).getMoneyAmount(), amountToWith);
                     }
                     break;
+
 
                 case account_transfer:
                     System.out.println("Enter source account ID:");
@@ -119,6 +119,21 @@ public class OperationsConsoleListener {
                     } else {
                         System.out.println("THIS OPERATION IS NOT POSSIBLE! PLEASE, TRY AGAIN!");
                     }
+                    break;
+
+                case account_close:
+                    System.out.println("Enter account ID to close:");
+                    Integer idToDel = scanner.nextInt();
+                    if (accountService.closeAccount(idToDel)) {
+                        System.out.printf("Account with ID: %d has been closed.\n", idToDel);
+                    } else {
+                        System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDel);
+                    }
+                    break;
+
+                case show_all_users:
+                    System.out.println("List of all users:");
+                    userService.getUsers().forEach(System.out::println);
                     break;
 
                 case exit:
