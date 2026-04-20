@@ -96,7 +96,7 @@ public class OperationsConsoleListener {
                         System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDep);
                     }
                     break;
-//TODO
+
                 case account_close:
                     System.out.println("Enter account ID to close:");
                     Integer idToDel = scanner.nextInt();
@@ -104,6 +104,20 @@ public class OperationsConsoleListener {
                         System.out.printf("Account with ID: %d has been closed.\n", idToDel);
                     } else {
                         System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDel);
+                    }
+                    break;
+
+                case account_transfer:
+                    System.out.println("Enter source account ID:");
+                    Integer source = scanner.nextInt();
+                    System.out.println("Enter target account ID:");
+                    Integer target = scanner.nextInt();
+                    System.out.println("Enter amount to transfer:");
+                    Integer amountTransfer = scanner.nextInt();
+                    if (accountService.transfer(source, target, amountTransfer)) {
+                        System.out.printf("Amount %d transferred from account ID %d to account ID %d.", amountTransfer, source, target);
+                    } else {
+                        System.out.println("THIS OPERATION IS NOT POSSIBLE! PLEASE, TRY AGAIN!");
                     }
                     break;
 

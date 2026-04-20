@@ -47,6 +47,29 @@ public class AccountService {
         return false;
     }
 
+
+    public boolean transfer(Integer source, Integer target, Integer amount) {
+        Account sourceAcc = null;
+        Account targetAcc = null;
+        for (User user : userService.getUsers()) {
+            for (Account account : user.getAccountList()) {
+                if (account.getAccountId().equals(source)) {
+                    sourceAcc = account;
+
+                } else if (account.getAccountId().equals(target)) {
+                    targetAcc = account;
+                }
+            }
+        }
+        if ((sourceAcc != null) && (targetAcc != null) && (sourceAcc.getMoneyAmount() >= amount)) {
+            sourceAcc.setMoneyAmount(sourceAcc.getMoneyAmount() - amount);
+            targetAcc.setMoneyAmount(targetAcc.getMoneyAmount() + amount);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Integer getUnique_account_id() {
         return unique_account_id;
     }
