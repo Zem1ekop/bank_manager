@@ -35,8 +35,16 @@ public class AccountService {
         return false;
     }
 
-    public void deposit(Integer amount) {
-
+    public boolean deposit(Integer id, Integer amount) {
+        for (User user : userService.getUsers()) {
+            for (Account account : user.getAccountList()) {
+                if (account.getAccountId().equals(id)) {
+                    account.setMoneyAmount(account.getMoneyAmount() + amount);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public Integer getUnique_account_id() {

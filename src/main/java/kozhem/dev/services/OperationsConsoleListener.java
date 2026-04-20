@@ -88,6 +88,13 @@ public class OperationsConsoleListener {
                 case account_deposit:
                     System.out.println("Enter account ID:");
                     Integer idToDep = scanner.nextInt();
+                    System.out.println("Enter amount to deposit:");
+                    Integer amount = scanner.nextInt();
+                    if (accountService.deposit(idToDep, amount)) {
+                        System.out.printf("Amount %d deposited to account ID: %d", amount, idToDep);
+                    } else {
+                        System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDep);
+                    }
                     break;
 //TODO
                 case account_close:
