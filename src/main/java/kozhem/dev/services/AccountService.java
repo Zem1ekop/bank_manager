@@ -18,10 +18,14 @@ public class AccountService {
     private Integer unique_account_id = 1;
     private final Integer defaultAmount;
     private Map<Integer,Account> accounts;
+    private final Integer transferCommission;
 
-    public AccountService(UserService userService, @Value("${account.default-amount}") Integer defaultAmount, Map<Integer, Account> accounts) {
+    public AccountService(UserService userService, @Value("${account.default-amount}") Integer defaultAmount,
+                          @Value("${account.transfer-commission}")Integer transferCommission,
+                          Map<Integer, Account> accounts) {
         this.userService = userService;
         this.defaultAmount = defaultAmount;
+        this.transferCommission = transferCommission;
         this.accounts = new HashMap<>();
         System.out.println("AccountService создан");
     }
@@ -69,6 +73,9 @@ public class AccountService {
         }
         if ((sourceAcc != null) && (targetAcc != null) && (sourceAcc.getMoneyAmount() >= amount)) {
             sourceAcc.setMoneyAmount(sourceAcc.getMoneyAmount() - amount);
+            if(!sourceAcc.getUserId().equals(targetAcc.getUserId())) {
+                amount -= (amount * transferCommission / 100);   // TODO ЗАКОММИТИТЬ !!!
+            }
             targetAcc.setMoneyAmount(targetAcc.getMoneyAmount() + amount);
             return true;
         } else {

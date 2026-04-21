@@ -41,17 +41,17 @@ public class OperationsConsoleListener {
         boolean isRunning = true;
 
         while (isRunning) {
-
-            System.out.println();
             System.out.println("Please enter one of operation type:");
+            System.out.println("ACCOUNT_CREATE\n" + "SHOW_ALL_USERS\n" + "ACCOUNT_CLOSE\n" +
+                    "ACCOUNT_WITHDRAW\n" + "ACCOUNT_DEPOSIT\n" + "ACCOUNT_TRANSFER\n" + "USER_CREATE\n" + "EXIT");
 
-            String input = scanner.next();
+            String input = scanner.nextLine();
 
             switch (input) {
                 case user_create:
 
                     System.out.println("Enter login for new user:");
-                    String new_login = scanner.next();
+                    String new_login = scanner.nextLine();
 
                     if (userService.getCreatedLogins().add(new_login)) {
 
@@ -69,6 +69,7 @@ public class OperationsConsoleListener {
 
                     int inputId = scanner.nextInt();
                     User user = userService.findUserById(inputId);
+                    scanner.nextLine(); // очистка буфера от \n
 
                     if (!(user == null)) {
                         Account account = accountService.createAccount(inputId);
@@ -83,8 +84,10 @@ public class OperationsConsoleListener {
                 case account_deposit:
                     System.out.println("Enter account ID:");
                     Integer idToDep = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("Enter amount to deposit:");
                     Integer amount = scanner.nextInt();
+                    scanner.nextLine();
                     if (accountService.deposit(idToDep, amount)) {
                         System.out.printf("Amount %d deposited to account ID: %d", amount, idToDep);
                     } else {
@@ -95,8 +98,10 @@ public class OperationsConsoleListener {
                 case account_withdraw:
                     System.out.println("Enter account ID to withdraw from:");
                     Integer id = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("Enter amount to withdraw:");
                     Integer amountToWith = scanner.nextInt();
+                    scanner.nextLine();
                     if (accountService.withdraw(id, amountToWith)) {
                         System.out.printf("Successfully withdraw amount: %d from acoount with id: %d", amountToWith, id);
                     } else {
@@ -106,14 +111,16 @@ public class OperationsConsoleListener {
                     }
                     break;
 
-
                 case account_transfer:
                     System.out.println("Enter source account ID:");
                     Integer source = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("Enter target account ID:");
                     Integer target = scanner.nextInt();
+                    scanner.nextLine();
                     System.out.println("Enter amount to transfer:");
                     Integer amountTransfer = scanner.nextInt();
+                    scanner.nextLine();
                     if (accountService.transfer(source, target, amountTransfer)) {
                         System.out.printf("Amount %d transferred from account ID %d to account ID %d.", amountTransfer, source, target);
                     } else {
@@ -124,6 +131,7 @@ public class OperationsConsoleListener {
                 case account_close:
                     System.out.println("Enter account ID to close:");
                     Integer idToDel = scanner.nextInt();
+                    scanner.nextLine();
                     if (accountService.closeAccount(idToDel)) {
                         System.out.printf("Account with ID: %d has been closed.\n", idToDel);
                     } else {
@@ -143,8 +151,6 @@ public class OperationsConsoleListener {
                 default:
                     System.out.println("WRONG COMMAND! TRY AGAIN!");
             }
-
-
         }
     }
 }
