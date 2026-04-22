@@ -1,5 +1,6 @@
 package kozhem.dev.services;
 
+import kozhem.dev.exceptions.UserAlreadyExistsException;
 import kozhem.dev.model.Account;
 import kozhem.dev.model.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,14 +54,13 @@ public class OperationsConsoleListener {
                     System.out.println("Enter login for new user:");
                     String new_login = scanner.nextLine();
 
-                    if (userService.getCreatedLogins().add(new_login)) {
-
+                    try {
                         User user = userService.createUser(new_login);
                         Account account = accountService.createAccount(user.getId());
                         user.getAccountList().add(account);
                         System.out.println("User created: " + user);
-                    } else {
-                        System.out.println("Пользователь с таким логином уже создан!");
+                    } catch (UserAlreadyExistsException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
 
@@ -106,7 +106,7 @@ public class OperationsConsoleListener {
                         System.out.printf("Successfully withdraw amount: %d from acoount with id: %d", amountToWith, id);
                     } else {
                         System.out.printf("Error executing command ACCOUNT_WITHDRAW: error=No such money to withdraw\n" +
-                                "/from account: id=%d, moneyAmount=%d, attemptedWithdraw=%d",
+                                        "/from account: id=%d, moneyAmount=%d, attemptedWithdraw=%d",
                                 id, accountService.getAccounts().get(id).getMoneyAmount(), amountToWith);
                     }
                     break;

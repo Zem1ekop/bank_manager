@@ -1,7 +1,7 @@
 package kozhem.dev.services;
 
+import kozhem.dev.exceptions.UserAlreadyExistsException;
 import kozhem.dev.model.User;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 //    UserService : Сервис для управления пользователями. Содержит методы для создания пользователя,
+
 //    поиска пользователя по ID и получения списка всех пользователей.
+
 @Service
 public class UserService {
 
@@ -22,12 +24,16 @@ public class UserService {
         System.out.println("UserService создан");
     }
 
-    public User createUser(String login) {
+    public User createUser(String login) throws UserAlreadyExistsException {
+        if (!createdLogins.add(login)) {
+            throw new UserAlreadyExistsException(login);
+        }
         User user = new User(uniqueUserId, login);
         users.add(user);
         uniqueUserId++;
         return user;
     }
+
 
     public User findUserById(Integer id) {
         User result = null;
