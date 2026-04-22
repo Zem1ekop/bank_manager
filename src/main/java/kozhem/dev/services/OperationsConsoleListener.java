@@ -1,6 +1,7 @@
 package kozhem.dev.services;
 
 import kozhem.dev.exceptions.UserAlreadyExistsException;
+import kozhem.dev.exceptions.UserNotFoundException;
 import kozhem.dev.model.Account;
 import kozhem.dev.model.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,16 +69,16 @@ public class OperationsConsoleListener {
                     System.out.println("Enter the user id for which to create an account:");
 
                     int inputId = scanner.nextInt();
-                    User user = userService.findUserById(inputId);
                     scanner.nextLine(); // очистка буфера от \n
 
-                    if (!(user == null)) {
+                    try {
+                        User user = userService.findUserById(inputId);
                         Account account = accountService.createAccount(inputId);
                         user.getAccountList().add(account);
                         System.out.printf("New account created with ID: %d for user: %s\n",
                                 account.getAccountId(), user.getLogin());
-                    } else {
-                        System.out.println("User with this id not found");
+                    } catch (UserNotFoundException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
 

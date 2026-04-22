@@ -1,6 +1,7 @@
 package kozhem.dev.services;
 
 import kozhem.dev.exceptions.UserAlreadyExistsException;
+import kozhem.dev.exceptions.UserNotFoundException;
 import kozhem.dev.model.User;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserService {
         System.out.println("UserService создан");
     }
 
-    public User createUser(String login) throws UserAlreadyExistsException {
+    public User createUser(String login) {
         if (!createdLogins.add(login)) {
             throw new UserAlreadyExistsException(login);
         }
@@ -36,11 +37,10 @@ public class UserService {
 
 
     public User findUserById(Integer id) {
-        User result = null;
         for (User user : users) {
-            if (user.getId() == id) result = user;
+            if (user.getId().equals(id)) return user;
         }
-        return result;
+        throw  new UserNotFoundException(id);
     }
 
     public Set<String> getCreatedLogins() {
