@@ -1,5 +1,6 @@
 package kozhem.dev.services;
 
+import kozhem.dev.exceptions.AccountNotFoundException;
 import kozhem.dev.exceptions.UserAlreadyExistsException;
 import kozhem.dev.exceptions.UserNotFoundException;
 import kozhem.dev.model.Account;
@@ -89,10 +90,11 @@ public class OperationsConsoleListener {
                     System.out.println("Enter amount to deposit:");
                     Integer amount = scanner.nextInt();
                     scanner.nextLine();
-                    if (accountService.deposit(idToDep, amount)) {
+                    try {
+                        accountService.deposit(idToDep, amount);
                         System.out.printf("Amount %d deposited to account ID: %d", amount, idToDep);
-                    } else {
-                        System.out.printf("ACCOUNT WITH ID: %d NOT FOUND!\n", idToDep);
+                    } catch (AccountNotFoundException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
 
